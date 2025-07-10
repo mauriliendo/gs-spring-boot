@@ -1,12 +1,15 @@
 pool:
   vmImage: 'ubuntu-latest'
-  demands: maven
+  #demands: maven
 
 steps:
 - task: Maven@3
   displayName: 'Maven app/pom.xml'
   inputs:
     mavenPomFile: 'app/pom.xml'
+    #goals: 'clean package'
+    #javaHomeOption: 'JDKVersion'
+    #jdkVersionOption: '1.11'
     codeCoverageToolOption: Cobertura
 
 - task: CopyFiles@2
@@ -15,10 +18,10 @@ steps:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '**/*.jar'
     TargetFolder: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
+  #condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
+  #condition: succeededOrFailed()
